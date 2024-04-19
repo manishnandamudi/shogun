@@ -27,21 +27,22 @@ class Stack:
     def size(self):
         return len(self.stack)
 
+#dfs algo using stack
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
         if not root:
             return 0
         
         stack = [(root, 1)]  # Start from the root node with depth 1
-        max_depth = 0
+        depth = 0
         while stack:
             node, depth = stack.pop()
-            max_depth = max(max_depth, depth)  # Update the maximum depth encountered
+            #max_depth = max(max_depth, depth)  # Update the maximum depth encountered
             if node.right:
                 stack.append((node.right, depth + 1))
             if node.left:
                 stack.append((node.left, depth + 1))
-        return max_depth
+        return depth
 
 # Example usage:
 # Constructing the binary tree

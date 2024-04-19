@@ -7,25 +7,59 @@ class Solution:
         self.val2 =val2
         self.val3 =val3
         
-    def binaryMaxDepth(self,root):
-        if not root:
+        
+    def removeElement(self, nums, val):
+        # num = len(nums)
+        # for i in range(num-1):
+        #     if nums[i] == val:
+        #         nums.pop(i)
+        # print(nums)
+        # return len(nums)
+        nums = [1,1,2]
+        val  =1 
+        i =0 
+        for x in nums:
+            if x != val:
+                nums[i] =x
+                i +=1
+        return i
+    
+    def removeDuplicates(self,nums):
+        rel = []
+        nums = [1,1,2]
+        if len(nums) == 0:
             return 0
+        index = 0
+        temp = []
+        for i in range(1, len(nums)):
+            if nums[i] != nums[i - 1]:
+                nums[index] = nums[i]
+                index += 1
+        print(index)
         
-        queue = deque([(root, 1)])
-        max_depth = 0
+        index1=1
+        for i in range(1,len(nums)-1):
+            for j in range(i+1,len(nums)-1):
+                if nums[j] != nums[i]:
+                    nums[index1] = nums[i]
+                    index1 +=1
+                    
         
-        while queue:
-            node, depth = queue.popleft()
-            max_depth = max(max_depth, depth)
+        nums = [1,1,2]
+        num_dict = {}
+        result = []
+        count = 0
+        for num in nums:
+            if num not in num_dict:
+                result.append(num)
+                num_dict[num] = True
+                count +=1
+        return result
             
-            if node.left:
-                queue.append((node.left, depth + 1))
-            if node.right:
-                queue.append((node.right, depth + 1))
         
-        return max_depth
-        
-         
+                
+
+
         
         
         
@@ -219,7 +253,7 @@ class Solution:
                     sorted =False
                     arr[i],arr[i+1]=arr[i+1],arr[i]
         return arr
-    
+    #olog(n)
     def selectionSort(self,arr):
         for i in range(0,len(arr)):
             min =i
@@ -231,6 +265,8 @@ class Solution:
             arr[min]=temp
         return arr
     
+    
+    #o(log(n)) complexity
     def quickSort(self,arr):
         length = len(arr)
         if length<=0:
@@ -247,6 +283,50 @@ class Solution:
                 items_lower.append(val)
         
         return self.quickSort(items_lower) + [pivot] + self.quickSort(items_greater)
+    
+    
+    #merge sort
+        
+    def merge_sort(self,arr):
+        if len(arr) > 1:
+            # Divide the array into two halves
+            mid = len(arr) // 2
+            left_arr = arr[:mid]
+            right_arr = arr[mid:]
+            
+            # Recursively sort the two halves
+            self.merge_sort(left_arr)
+            self.merge_sort(right_arr)
+            
+            # Merge the sorted halves
+            self.merge(arr, left_arr, right_arr)
+
+    def merge(self,arr, left_arr, right_arr):
+        i = j = k = 0
+        
+        # Merge the two sorted arrays
+        while i < len(left_arr) and j < len(right_arr):
+            if left_arr[i] < right_arr[j]:
+                arr[k] = left_arr[i]
+                i += 1
+            else:
+                arr[k] = right_arr[j]
+                j += 1
+            k += 1
+        
+        # Check if any elements were left
+        while i < len(left_arr):
+            arr[k] = left_arr[i]
+            i += 1
+            k += 1
+        
+        while j < len(right_arr):
+            arr[k] = right_arr[j]
+            j += 1
+            k += 1
+
+            
+            
             
                 
     def binarySearch(self,num,target):
@@ -268,8 +348,10 @@ class Solution:
         nums1.sort()
         n = len(nums1)
         if n % 2 == 0:
+            val = (nums1[n//2] + nums1[n//2 - 1]) / 2
             return (nums1[n//2] + nums1[n//2 - 1]) / 2
         else:
+            val1 = nums1[n//2]
             return nums1[n//2]
         
     def twoSum(self, nums, target):
@@ -296,7 +378,7 @@ class Solution:
     def pallindrome(self,num):
         temp=num
         reverse =0
-        while temp > 0:
+        while (temp > 0):
             temp1 = temp % 10
             reverse = reverse * 10 +temp1
             temp = temp//10
@@ -304,7 +386,18 @@ class Solution:
             return "isPallindrome"
         else:
             return "not a pallindrome"
-    
+        
+    def palling_string(self,str1):
+        # Check if the input is a string
+        if not isinstance(str1,str):
+            str1 = str(str1)
+        
+        rev = str1[::-1]
+        if rev == str1:
+            print(f"{rev} is pallindrome" )
+        else:
+            print(f"{rev} is not apallindrome")
+            
     def pn(self,val):
         count =0
         if (val > 1):
@@ -354,13 +447,17 @@ class Solution:
 
 solution = Solution(171,"malyalam",293)
 
-bin =[3,9,20,"","",15,7]
-solution.binaryMaxDepth(bin)
 
-e=[1,2,4]
-f =[1,3,4]
+solution.removeDuplicates([1,2,2,3,0,4,2])
+solution.removeElement([1,2,2,3,0,4,2],2)
 
-solution.mergeTwoLists(e,f)
+# bin =[3,9,20,"","",15,7]
+# solution.binaryMaxDepth(bin)
+
+# e=[1,2,4]
+# f =[1,3,4]
+
+# solution.mergeTwoLists(e,f)
 
 
 a1 =[1,2,3,0,0,0]
@@ -368,85 +465,93 @@ a2 = [2,5,6]
 
 res_mergeArray = solution.mergeArray(a1,3,a2,3)
 
-arr1 = [1]
-max_res = solution.findMaxAverage(arr1,4)
+# arr1 = [1]
+# max_res = solution.findMaxAverage(arr1,4)
 
 
 s1 = "ab"
 s2 = "eidbaooo"
 result = solution.checkSubstring(s1, s2)
 
-sRev = solution.reverseUsingStack("like this")
+# sRev = solution.reverseUsingStack("like this")
 
 rev=solution.reversecallusingPointer("like this")
 
-val = solution.fibonacci(9)
+# val = solution.fibonacci(9)
 
 
-arr = [1, 1, 2, 2, 3, 5, 4, 2, 2, 3, 1, 1, 1]
-n = len(arr)
-k = 4
-solution.morethanNbyK(arr,n,k)
+# arr = [1, 1, 2, 2, 3, 5, 4, 2, 2, 3, 1, 1, 1]
+# n = len(arr)
+# k = 4
+# solution.morethanNbyK(arr,n,k)
 
-#bubbleSort
-arr=[60,45,25,20,16,14,12,9]
-
-result_bubble=solution.bubbleSort(arr)
-
-
-#selection Sort
-arr1 =[4,9,3,6,2]
-result_ss = solution.selectionSort(arr1)
-
-#quickSort
-arr1 =[4,9,3,6,2]
-result_ss = solution.quickSort(arr1)
+# #bubbleSort
+#arr_b=[60,45,25,20,16,14,12,9]
+#result_bubble=solution.bubbleSort(arr_b)
 
 
-# #leetcode problem 704
+# #selection Sort
+#arr1 =[2,7,8,1,6,10]
+#result_ss = solution.selectionSort(arr1)
+
+# # #quickSort
+# arr1 =[4,9,3,6,2]
+# result_ss = solution.quickSort(arr1)
+
+
+# #mergeSort
+# # Example usage:
+# arr = [2,6,5,1,7,4,3]
+# print("Original array:", arr)
+
+# resoo =solution.merge_sort(arr)
+# print("Sorted array:", arr)
+
+# # #leetcode problem 704
 # num = [1,2,5,9,10,44]
 # target = 44
 # res_bin = solution.binarySearch(num,target)
 
 
-# #leetcode problem Median of Two Sorted Arrays
-# nums1 = [1, 2]
-# nums2 = [3,5]
-# result = solution.findMedianSortedArrays(nums1, nums2)
+# # #leetcode problem Median of Two Sorted Arrays
+#nums1 = [1, 2]
+#nums2 = [3,5]
+#result = solution.findMedianSortedArrays(nums1, nums2)
 
 
 
-# #leetcode problem Two Sum
-# nums = [2,7,11,15]
-# target = 26
-# result = solution.twoSum(nums, target)
+# # #leetcode problem Two Sum
+nums = [2,7,11,15]
+target = 26
+result = solution.twoSum(nums, target)
 
-# #check prime number
-#val1 =solution.pn(23)
-#val = solution.pallindrome(171)
-result = solution.primeNumber(5)
+# # #check prime number
+# #val1 =solution.pn(23)
+# #val = solution.pallindrome(171)
+# result = solution.primeNumber(5)
 
-# # test palindrome method
-# s = "malayalam"
-# ans = solution.isPalindrome(s)
+# test palindrome method
+# s = 707
+# ans = solution.pallindrome(s)
 # if ans:
 #     print("Yes its a pallindrome")
 # else:
 #     print("No")
 
-# test factorial method
-num = 4
-fact = solution.factorial(num)
-print(f"The factorial of {num} is {fact}")
+# sPallin = solution.palling_string(123)
+# # test factorial method
+# num = 4
+# fact = solution.factorial(num)
+# print(f"The factorial of {num} is {fact}")
 
-# test recursive factorial method
-num = 88
-fact = solution.fact_recursive(num)
-print(f"The factorial of {num} is {fact}")
+# # test recursive factorial method
+# num = 88
+# fact = solution.fact_recursive(num)
+# print(f"The factorial of {num} is {fact}")
 
-#take input from user
+# #take input from user
 
-num1 = int(input("Enter a number: "))
-num2 = int(input("Enter another number: "))
+# num1 = int(input("Enter a number: "))
+# num2 = int(input("Enter another number: "))
 
-sol,sol1 = Solution.swap(num1, num2)
+# sol,sol1 = Solution.swap(num1, num2)

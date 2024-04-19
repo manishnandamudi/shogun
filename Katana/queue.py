@@ -29,6 +29,7 @@ class Queue:
     def size(self):
         return len(self.queue)
 
+#bfs algo usses queue
 class Solution:
     def maxDepth(self, queue: Queue) -> int:
         if not queue:
