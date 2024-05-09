@@ -1,17 +1,18 @@
 class sorting :
-    #0(n)
-    def bubbleSort(self,arr):
-        index_len=len(arr)-1 #because we need to check the
-        #next element in bubble sort so last element will never exist hence -1
-        sorted=False
-        
-        while not sorted:
-            sorted = True
-            for i in range (0,index_len):
-                if arr[i] > arr[i+1]:
-                    sorted =False
-                    arr[i],arr[i+1]=arr[i+1],arr[i]
-        return arr
+    #0(n2)
+    def bubbleSort(self,my_array):
+        n = len(my_array)
+        for i in range(n-1):
+            swapped = False
+            for j in range(n-i-1):
+                if my_array[j] > my_array[j+1]:
+                    my_array[j], my_array[j+1] = my_array[j+1], my_array[j]
+                    swapped = True
+            if not swapped:
+                break
+
+        print("Sorted array:", my_array)
+        return my_array
     
     #0(n)
     def selectionSort(self,arr):
@@ -24,6 +25,21 @@ class sorting :
             arr[i] = arr[min]
             arr[min]=temp
         return arr
+    
+    def insertionSort(self,my_array):
+        n = len(my_array)
+        for i in range(1,n):
+            insert_index = i
+            current_value = my_array[i]
+            for j in range(i-1, -1, -1):
+                if my_array[j] > current_value:     
+                    my_array[j+1] = my_array[j]
+                    insert_index = j
+                else:
+                    break
+            my_array[insert_index] = current_value
+
+        print("Sorted array:", my_array)
     
     
     #0(log(n)) complexity
@@ -43,52 +59,45 @@ class sorting :
                 items_lower.append(val)
         
         return self.quickSort(items_lower) + [pivot] + self.quickSort(items_greater)
-    
+        #return self.quickSort(items_lower + [pivot] + items_greater)
+        
     #0(log(n)) complexity
     #merge sort 
     def merge_sort(self,arr):
-        if len(arr) > 1:
-            # Divide the array into two halves
-            mid = len(arr) // 2
-            left_arr = arr[:mid]
-            right_arr = arr[mid:]
-            
-            # Recursively sort the two halves
-            self.merge_sort(left_arr)
-            self.merge_sort(right_arr)
-            
-            # Merge the sorted halves
-            self.merge(arr, left_arr, right_arr)
-
-    def merge(self,arr, left_arr, right_arr):
-        i = j = k = 0
+        if len(arr) <= 1:
+            return arr
+        mid = len(arr) // 2
+        left_arr = arr[:mid]
+        right_arr = arr[mid:]
         
-        # Merge the two sorted arrays
-        while i < len(left_arr) and j < len(right_arr):
-            if left_arr[i] < right_arr[j]:
-                arr[k] = left_arr[i]
+        l=self.merge_sort(left_arr)
+        r=self.merge_sort(right_arr)
+        
+        return self.merge(l,r)
+
+    def merge(self,left, right):
+        result = []
+        i = j = 0
+
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                result.append(left[i])
                 i += 1
             else:
-                arr[k] = right_arr[j]
+                result.append(right[j])
                 j += 1
-            k += 1
-        
-        # Check if any elements were left
-        while i < len(left_arr):
-            arr[k] = left_arr[i]
-            i += 1
-            k += 1
-        
-        while j < len(right_arr):
-            arr[k] = right_arr[j]
-            j += 1
-            k += 1
+
+        result.extend(left[i:])
+        result.extend(right[j:])
+
+        return result
 
 obj = sorting()
 
-arr = [26,16,22,44,8,9]
+arr = [26,16,22,44,8,1]
+#obj.insertionSort(arr)
 #obj.bubbleSort(arr)
 #obj.selectionSort(arr)
-
+j=obj.merge_sort(arr)
 val = obj.quickSort(arr)
 a = val
