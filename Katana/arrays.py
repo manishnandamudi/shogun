@@ -40,9 +40,32 @@ class New:
                 if arr[i]==arr[j]:
                     count +=1
         return count
+#4 #Even Number of Digits - https://workat.tech/problem-solving/practice/even-number-of-digits
+    def hasEvenNumberOfDigits(self, number: int) -> bool:
+        digit_count = 0
+        while number != 0:
+            number //= 10
+            digit_count += 1
+        return digit_count % 2 == 0
+
+    def getEvenNumberOfDigits(self, arr: List[int]):
+        result = []
+        val1 =[]
+        count = 0 
+        for val in arr:
+            count = 0 
+            val1 = val
+             # Reset count for each number
+            while val != 0:
+                val //= 10
+                count += 1
+            if count % 2 == 0:
+                result.append(val1)  # Append the original value, not the modified one
+        return result
 
 
 obj = New()
+obj.getEvenNumberOfDigits([42, 564, 5775, 34, 123, 454, 1, 5, 45, 3556, 23442])
 obj.getIdenticalTwinsCount([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5])
 obj.getCumulativeSum([1, 2, 3, 4, 5])
 obj.getPositiveCumulativeSum([1, -2, 3, 4, -6])
